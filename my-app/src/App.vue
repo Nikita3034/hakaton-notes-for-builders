@@ -21,7 +21,7 @@
 						label="name"
 						:searchable="false"
 						:reduce="status => status.id" 
-						placeholder="Выбрать статус"
+						placeholder="Статус"
 						multiple>
 							<template #option="{ id, name }">
 								<span class="option-status"
@@ -39,7 +39,40 @@
 						label="name"
 						:searchable="false"
 						:reduce="status => status.id" 
-						placeholder="Выбрать исполнителя"
+						placeholder="Ответственный"
+						multiple>
+							<template #option="{ name }">
+								{{ name }}
+							</template>
+					</v-select>
+				</div>
+			</div>
+
+			<div class="selects">
+				<div class="select">
+					<v-select 
+						:options="[]" 
+						label="name"
+						:searchable="false"
+						:reduce="status => status.id" 
+						placeholder="Объекты"
+						multiple>
+							<template #option="{ id, name }">
+								<span class="option-status"
+									:class="id === 1 ? 'success' : id === 2 ? 'error' : 'between'">
+										{{ name }}
+								</span>
+							</template>
+					</v-select>
+				</div>
+
+				<div class="select">
+					<v-select 
+						:options="[]" 
+						label="name"
+						:searchable="false"
+						:reduce="status => status.id" 
+						placeholder="Дата"
 						multiple>
 							<template #option="{ name }">
 								{{ name }}
