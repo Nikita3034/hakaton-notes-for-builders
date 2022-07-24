@@ -6,7 +6,7 @@
             </a>
             <div class="item">
                 <div>{{ item.name }}</div>
-                <div>{{ item.executor }}</div>
+                <div>Исполнитель: {{ item.executor }}</div>
             </div>
         </div>
     </div>

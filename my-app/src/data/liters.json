@@ -12,41 +12,41 @@
     {
         "id": 3,
         "complex_id": 2,
-        "name": "Литер 3"
+        "name": "Литер 1"
     },
     {
         "id": 4,
         "complex_id": 2,
-        "name": "Литер 4"
+        "name": "Литер 2"
     },
     {
         "id": 5,
         "complex_id": 3,
-        "name": "Литер 5"
+        "name": "Литер 1"
     },
     {
         "id": 6,
         "complex_id": 3,
-        "name": "Литер 6"
+        "name": "Литер 2"
     },
     {
         "id": 7,
         "complex_id": 4,
-        "name": "Литер 7"
+        "name": "Литер 1"
     },
     {
         "id": 8,
         "complex_id": 4,
-        "name": "Литер 8"
+        "name": "Литер 2"
     },
     {
         "id": 9,
         "complex_id": 5,
-        "name": "Литер 9"
+        "name": "Литер 1"
     },
     {
         "id": 10,
         "complex_id": 5,
-        "name": "Литер 10"
+        "name": "Литер 2"
     }
 ]

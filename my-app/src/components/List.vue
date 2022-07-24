@@ -20,7 +20,7 @@
                                 @click="$parent.modalOpen(value)">
                                     <span class="title">{{ value.name }}</span>
                                     <span class="date">{{ value.date }}</span>
-                                    <span class="executor">{{ value.executor }}</span>
+                                    <span class="executor">Исп: {{ value.executor }}</span>
                                     <template v-if="value.important == true">
                                         <span class="important">!</span>
                                     </template>
