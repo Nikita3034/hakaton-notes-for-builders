@@ -5,8 +5,12 @@
                 x
             </a>
             <div class="item">
-                <div>{{ item.name }}</div>
+                <div class="name">{{ item.name }}</div>
                 <div>Исполнитель: {{ item.executor }}</div>
+
+                <template v-if="item.status != 1">
+                    <button @click="$parent.markDone(item.id)">Выполнено</button>
+                </template>
             </div>
         </div>
     </div>

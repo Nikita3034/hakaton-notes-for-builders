@@ -3,7 +3,7 @@
 		<div class="header">
 
 			<div class="logo">
-				<img src="./assets/logo.png">
+				<img src="./assets/logo.jpg">
 			</div>
 
 			<div class="types">
@@ -13,22 +13,39 @@
 				<button @click="changeItems('workTypeEmpty')">Типы работ</button>
 			</div>
 
-			<div class="select">
-				<v-select 
-					@input="addFilterStatus"
-					:options="statuses" 
-					label="name"
-					:searchable="false"
-					:reduce="status => status.id" 
-					placeholder="Выбрать статус"
-					multiple>
-						<template #option="{ id, name }">
-							<span class="option-status"
-								:class="id === 1 ? 'success' : id === 2 ? 'error' : 'between'">
-									{{ name }}
-							</span>
-						</template>
-				</v-select>
+			<div class="selects">
+				<div class="select">
+					<v-select 
+						@input="addFilterStatus"
+						:options="statuses" 
+						label="name"
+						:searchable="false"
+						:reduce="status => status.id" 
+						placeholder="Выбрать статус"
+						multiple>
+							<template #option="{ id, name }">
+								<span class="option-status"
+									:class="id === 1 ? 'success' : id === 2 ? 'error' : 'between'">
+										{{ name }}
+								</span>
+							</template>
+					</v-select>
+				</div>
+
+				<div class="select">
+					<v-select 
+						@input="addFilterExecutor"
+						:options="executors" 
+						label="name"
+						:searchable="false"
+						:reduce="status => status.id" 
+						placeholder="Выбрать исполнителя"
+						multiple>
+							<template #option="{ name }">
+								{{ name }}
+							</template>
+					</v-select>
+				</div>
 			</div>
 		</div>
 
@@ -80,6 +97,7 @@ export default {
 			componentKey: 0,
  			items: [],
 			statusArr: [],
+			executorArr: [],
 			historyData: [],
 			isModalOpen: false,
 			modalData: {},
@@ -92,15 +110,15 @@ export default {
 			workTypes: [
 				{
 					"id": 1,
-					"name": "Общественные",
+					"name": "Общие",
 				},
 				{
 					"id": 2,
-					"name": "Преддомовые",
+					"name": "Инженерные комуникации",
 				},
 				{
 					"id": 3,
-					"name": "Уличные",
+					"name": "Отделочные работы",
 				},
 			],
 			statuses: [
@@ -115,6 +133,20 @@ export default {
 				{
 					"id": 3,
 					"name": "В процессе"
+				},
+			],
+			executors: [
+				{
+					"id": "ООО Гранит",
+					"name": "ООО Гранит"
+				},
+				{
+					"id": "ООО Металл",
+					"name": "ООО Металл"
+				},
+				{
+					"id": "ООО Серебро",
+					"name": "ООО Серебро"
 				},
 			],
 		}
@@ -140,9 +172,17 @@ export default {
 			this.statusArr = statusArr;
 			this.componentKey++;
 		},
+		addFilterExecutor(executorArr) {
+			this.executorArr = executorArr;
+			this.componentKey++;
+		},
 		modalOpen(item) {
 			this.modalData = item;
 			this.isModalOpen = true;
+		},
+		markDone(id) {
+			this.isModalOpen = !this.isModalOpen;
+			document.querySelector('[data-id="' + id + '"]').remove();
 		},
 		inside(id) {
 			switch (this.key) {
@@ -168,43 +208,108 @@ export default {
 			switch (this.key) {
 				case 'complex':
 					return this.works.filter(function( element ) {
-						if (this.statusArr.length > 0) {
-							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && element['complex_id'] == id;
-						} else {
-							return element['complex_id'] == id;
+
+						if (this.statusArr.length > 0 && this.executorArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 &&
+								element['complex_id'] == id;
 						}
+
+						if (this.statusArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								element['complex_id'] == id;
+						}
+
+						if (this.executorArr.length > 0) {
+							return this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 && 
+								element['complex_id'] == id;
+						}
+
+						return element['complex_id'] == id;
 					}, this);
 				case 'liter':
 					return this.works.filter(function( element ) {
-						if (this.statusArr.length > 0) {
-							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && element['liter_id'] == id;
-						} else {
-							return element['liter_id'] == id;
+
+						if (this.statusArr.length > 0 && this.executorArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 &&
+								element['liter_id'] == id;
 						}
+
+						if (this.statusArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								element['liter_id'] == id;
+						}
+
+						if (this.executorArr.length > 0) {
+							return this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 && 
+								element['liter_id'] == id;
+						}
+
+						return element['liter_id'] == id;
 					}, this);
 				case 'floor':
 					return this.works.filter(function( element ) {
-						if (this.statusArr.length > 0) {
-							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && element['floor_id'] == id;
-						} else {
-							return element['floor_id'] == id;
+
+						if (this.statusArr.length > 0 && this.executorArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 &&
+								element['floor_id'] == id;
 						}
+
+						if (this.statusArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								element['floor_id'] == id;
+						}
+
+						if (this.executorArr.length > 0) {
+							return this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 && 
+								element['floor_id'] == id;
+						}
+
+						return element['floor_id'] == id;
 					}, this);
 				case 'workType':
 					return this.works.filter(function( element ) {
-						if (this.statusArr.length > 0) {
-							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && element['work_type_id'] == id && element['floor_id'] == this.floorId;
-						} else {
-							return element['work_type_id'] == id && element['floor_id'] == this.floorId;
+
+						if (this.statusArr.length > 0 && this.executorArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 &&
+								element['work_type_id'] == id && element['floor_id'] == this.floorId;
 						}
+
+						if (this.statusArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								element['work_type_id'] == id && element['floor_id'] == this.floorId;
+						}
+
+						if (this.executorArr.length > 0) {
+							return this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 && 
+								element['work_type_id'] == id && element['floor_id'] == this.floorId;
+						}
+
+						return element['work_type_id'] == id && element['floor_id'] == this.floorId;
 					}, this);
 				case 'workTypeEmpty':
 					return this.works.filter(function( element ) {
-						if (this.statusArr.length > 0) {
-							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && element['work_type_id'] == id;
-						} else {
-							return element['work_type_id'] == id;
+
+						if (this.statusArr.length > 0 && this.executorArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 &&
+								element['work_type_id'] == id;
 						}
+
+						if (this.statusArr.length > 0) {
+							return this.statusArr.indexOf(this.works.find(el => el.id == element.id)['status']) >= 0 && 
+								element['work_type_id'] == id;
+						}
+
+						if (this.executorArr.length > 0) {
+							return this.executorArr.indexOf(this.works.find(el => el.id == element.id)['executor']) >= 0 && 
+								element['work_type_id'] == id;
+						}
+
+						return element['work_type_id'] == id;
 					}, this);
 			}
 		},

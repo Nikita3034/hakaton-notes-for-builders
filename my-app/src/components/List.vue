@@ -11,7 +11,7 @@
 
 
                 <div class="works">
-                    <div class="works-item"
+                    <div class="works-item" :data-id="value.id"
                         v-for="value in $parent.getWorks(item.id)"
                         v-bind:key="value.id"
                         :class="value['status'] === 1 ? 'success' : value['status'] === 2 ? 'error' : 'between'">
