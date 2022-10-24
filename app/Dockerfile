@@ -1,11 +1,5 @@
 FROM node:10
 
-WORKDIR /usr/src/app/app
-
-COPY package*.json ./
-
-RUN npm install
+WORKDIR /usr/src/app
 
 EXPOSE 8080
-
-CMD ["npm", "run", "serve"]
